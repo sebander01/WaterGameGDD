@@ -37,4 +37,12 @@ public:
 	void GroundJump(UMeshComponent* Body, float JumpForce, int numJumps);
 	UFUNCTION(BlueprintCallable, Category = "Ground Movement")
 	void JumpCheck(AActor* ObjectActor, TArray<FName> JumpableTagList);
+	UFUNCTION(BlueprintCallable, Category = "Ground Movement")
+	void WalkForward(UMeshComponent* Body, float speed, float maxSpeed);
+	UFUNCTION(BlueprintCallable, Category = "Ground Movement")
+	void WalkBackwards(UMeshComponent* Body, float speed, float maxSpeed);
+	UFUNCTION(BlueprintCallable, Category = "Ground Movement")
+	void WalkLeft(UMeshComponent* Body, float speed, float maxSpeed);
+	UFUNCTION(BlueprintCallable, Category = "Ground Movement")
+	void WalkRight(UMeshComponent* Body, float speed, float maxSpeed);
 };

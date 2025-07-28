@@ -17,22 +17,44 @@ void AGroundMovement::BeginPlay()
 	Super::BeginPlay();
 }
 
+/// <summary>
+/// Connected to an event hit this will check if a player can jump based on it's tag
+/// </summary>
+/// <param name="ObjectActor">The player object that is being moved in the jump</param>
+/// <param name="JumpableTagList">A list of all tags that can reset our jump</param>
 void AGroundMovement::JumpCheck(AActor* ObjectActor, TArray<FName> JumpableTagList)
 {
 	for(FName Ltag : JumpableTagList)
 	{
-		UE_LOG(LogTemp, Error, TEXT("Jump Check"))
 		if (ObjectActor->ActorHasTag(Ltag))
 		{
-			UE_LOG(LogTemp, Error, TEXT("Hit"));
 			canJump = true;
 		}
 		else
 		{
-			UE_LOG(LogTemp, Error, TEXT("Fail"))
 			canJump = false;
 		}
 	}
+}
+
+void AGroundMovement::WalkForward(UMeshComponent* Body, float speed, float maxSpeed)
+{
+		Body->AddImpulse(FVector(speed, 0, 0));
+}
+
+void AGroundMovement::WalkBackwards(UMeshComponent* Body, float speed, float maxSpeed)
+{
+	Body->AddImpulse(FVector(-speed, 0, 0));
+}
+
+void AGroundMovement::WalkLeft(UMeshComponent* Body, float speed, float maxSpeed)
+{
+	Body->AddImpulse(FVector(0, -speed, 0));
+}
+
+void AGroundMovement::WalkRight(UMeshComponent* Body, float speed, float maxSpeed)
+{
+	Body->AddImpulse(FVector(0, speed, 0));
 }
 
 // Called every frame
@@ -51,10 +73,8 @@ void AGroundMovement::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 
 void AGroundMovement::GroundJump(UMeshComponent* Body, float JumpForce, int numJumps)
 {
-	UE_LOG(LogTemp, Error, TEXT("Pressed"));
 	if (numJumps >= jumpCount  && canJump)
 	{
-		UE_LOG(LogTemp, Error, TEXT("Jump"));
 		Body->AddImpulse(FVector(0.0f, 0.0f, JumpForce * 10));
 		canJump = false;
 	}
